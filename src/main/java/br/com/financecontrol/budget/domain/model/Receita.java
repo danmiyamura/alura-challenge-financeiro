@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Receitas {
+public class Receita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
