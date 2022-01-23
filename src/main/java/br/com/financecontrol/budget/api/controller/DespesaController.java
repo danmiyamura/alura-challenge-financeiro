@@ -2,7 +2,6 @@ package br.com.financecontrol.budget.api.controller;
 
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.service.CadastroDespesaService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

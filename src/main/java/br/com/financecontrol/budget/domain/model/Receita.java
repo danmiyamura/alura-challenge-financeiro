@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,6 +24,7 @@ public class Receita {
     BigDecimal valor;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     Date data;
 
 }

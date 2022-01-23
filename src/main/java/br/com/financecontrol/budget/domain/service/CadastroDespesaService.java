@@ -1,10 +1,7 @@
 package br.com.financecontrol.budget.domain.service;
 
 import br.com.financecontrol.budget.domain.model.Despesa;
-import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
-import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

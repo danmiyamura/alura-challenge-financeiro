@@ -2,7 +2,7 @@ package br.com.financecontrol.budget.domain.service;
 
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
-import org.apache.coyote.Response;
+import br.com.financecontrol.budget.util.BudgetAppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,21 @@ public class CadastroReceitaService {
     @Autowired
     private ReceitaRepository repository;
 
-    public Receita save(Receita receita) {
-        return repository.save(receita);
+    public ResponseEntity<Receita> save(Receita receita) {
+        List<Receita> listReceitas = findAll();
+        String descReceitaAtual = receita.getDescricao();
+        int mesAtual = BudgetAppUtil.getMonth(receita);
+
+        for (Receita receitaDB : listReceitas) {
+            String descDb = receitaDB.getDescricao();
+            int mesDb = BudgetAppUtil.getMonth(receitaDB);
+
+            if(descReceitaAtual.equals(descDb) && mesAtual == mesDb) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        repository.save(receita);
+        return ResponseEntity.ok(receita);
     }
 
     public List<Receita> findAll(){
