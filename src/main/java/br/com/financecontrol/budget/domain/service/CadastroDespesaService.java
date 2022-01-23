@@ -5,6 +5,7 @@ import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,12 +33,13 @@ public class CadastroDespesaService {
         return null;
     }
 
-    public void delete(Long id){
+    public ResponseEntity<Despesa> delete(Long id){
         try{
             repository.deleteById(id);
+            return ResponseEntity.noContent().build();
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
-
 }

@@ -2,11 +2,10 @@ package br.com.financecontrol.budget.api.controller;
 
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.service.CadastroDespesaService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +24,10 @@ public class DespesaController {
     @GetMapping("/{id}")
     public Despesa busca(@PathVariable Long id){
         return service.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Despesa> remover(@PathVariable Long id){
+       return service.delete(id);
     }
 }
