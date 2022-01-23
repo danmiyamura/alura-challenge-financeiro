@@ -22,7 +22,7 @@ public class DespesaController {
     }
 
     @GetMapping("/{id}")
-    public Despesa busca(@PathVariable Long id){
+    public ResponseEntity<Despesa> busca(@PathVariable Long id){
         return service.findById(id);
     }
 

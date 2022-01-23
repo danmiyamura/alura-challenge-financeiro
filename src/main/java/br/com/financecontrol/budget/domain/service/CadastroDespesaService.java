@@ -4,6 +4,7 @@ import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,13 @@ public class CadastroDespesaService {
         return repository.findAll();
     }
 
-    public Despesa findById(Long id){
+    public ResponseEntity<Despesa> findById(Long id){
         Optional<Despesa> despesaOptional = repository.findById(id);
 
         if(despesaOptional.isPresent()) {
-            return despesaOptional.get();
+            return ResponseEntity.ok(despesaOptional.get());
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<Despesa> delete(Long id){

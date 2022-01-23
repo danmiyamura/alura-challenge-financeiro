@@ -22,7 +22,7 @@ public class ReceitaController {
     }
 
     @GetMapping("/{id}")
-    public Receita buscar(@PathVariable Long id){
+    public ResponseEntity<Receita> buscar(@PathVariable Long id){
         return service.findById(id);
     }
 

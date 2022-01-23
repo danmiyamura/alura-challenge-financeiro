@@ -24,13 +24,13 @@ public class CadastroReceitaService {
         return repository.findAll();
     }
 
-    public Receita findById(Long id){
+    public ResponseEntity<Receita> findById(Long id){
         Optional<Receita> receitaOptional = repository.findById(id);
 
         if(receitaOptional.isPresent()) {
-            return receitaOptional.get();
+            return ResponseEntity.ok(receitaOptional.get());
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<Receita> delete(Long id){
