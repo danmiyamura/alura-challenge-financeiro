@@ -30,6 +30,11 @@ public class ReceitaController {
         return service.save(receita);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Receita> atualizar(@PathVariable Long id, @RequestBody Receita receita) {
+        return service.update(id, receita);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Receita> remover(@PathVariable Long id){
         return service.delete(id);
