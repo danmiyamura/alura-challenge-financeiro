@@ -2,7 +2,9 @@ package br.com.financecontrol.budget.domain.service;
 
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +33,13 @@ public class CadastroReceitaService {
         return null;
     }
 
-    public void delete(Long id){
+    public ResponseEntity<Receita> delete(Long id){
         try{
             repository.deleteById(id);
+            return ResponseEntity.noContent().build();
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
-
 }
