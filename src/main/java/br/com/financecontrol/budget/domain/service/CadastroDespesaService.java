@@ -1,7 +1,9 @@
 package br.com.financecontrol.budget.domain.service;
 
 import br.com.financecontrol.budget.domain.model.Despesa;
+import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
+import br.com.financecontrol.budget.util.BudgetAppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,11 +13,25 @@ import java.util.Optional;
 
 @Service
 public class CadastroDespesaService {
+
     @Autowired
     private DespesaRepository repository;
 
-    public Despesa save(Despesa despesa) {
-        return repository.save(despesa);
+    public ResponseEntity<Despesa> save(Despesa despesa) {
+        List<Despesa> listaDespesas = findAll();
+        String descDespesaAtual = despesa.getDescricao();
+        int mesDespesaAtual = BudgetAppUtil.getMonth(despesa);
+
+        for (Despesa receitaDB : listaDespesas) {
+            String descDb = receitaDB.getDescricao();
+            int mesDb = BudgetAppUtil.getMonth(receitaDB);
+
+            if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        repository.save(despesa);
+        return ResponseEntity.ok(despesa);
     }
 
     public List<Despesa> findAll(){

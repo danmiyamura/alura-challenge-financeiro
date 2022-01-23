@@ -25,6 +25,11 @@ public class DespesaController {
         return service.findById(id);
     }
 
+    @PostMapping
+    public ResponseEntity<Despesa>  salvar(@RequestBody Despesa despesa){
+        return service.save(despesa);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Despesa> remover(@PathVariable Long id){
        return service.delete(id);
