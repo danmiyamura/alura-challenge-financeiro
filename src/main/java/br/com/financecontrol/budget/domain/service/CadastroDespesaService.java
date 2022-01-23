@@ -1,9 +1,9 @@
 package br.com.financecontrol.budget.domain.service;
 
 import br.com.financecontrol.budget.domain.model.Despesa;
-import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,9 @@ public class CadastroDespesaService {
         String descDespesaAtual = despesa.getDescricao();
         int mesDespesaAtual = BudgetAppUtil.getMonth(despesa);
 
-        for (Despesa receitaDB : listaDespesas) {
-            String descDb = receitaDB.getDescricao();
-            int mesDb = BudgetAppUtil.getMonth(receitaDB);
+        for (Despesa despesaDB : listaDespesas) {
+            String descDb = despesaDB.getDescricao();
+            int mesDb = BudgetAppUtil.getMonth(despesaDB);
 
             if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
                 return ResponseEntity.badRequest().build();
@@ -55,5 +55,34 @@ public class CadastroDespesaService {
             System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public ResponseEntity<Despesa> update(Long id, Despesa despesa) {
+        String descDespesaAtual = despesa.getDescricao();
+        int mesDespesaAtual = BudgetAppUtil.getMonth(despesa);
+        Optional<Despesa> despesaDb = repository.findById(id);
+
+        if (despesaDb.isPresent()){
+            String descDespesaDb = despesaDb.get().getDescricao();
+            int mesDespesaAtualDb = BudgetAppUtil.getMonth(despesaDb.get());
+
+            if(descDespesaAtual.equals(descDespesaDb) && mesDespesaAtual == mesDespesaAtualDb){
+                return ResponseEntity.badRequest().build();
+            }
+
+            List<Despesa> despesasDb = findAll();
+            for (Despesa despesaDB : despesasDb) {
+                String descDb = despesaDB.getDescricao();
+                int mesDb = BudgetAppUtil.getMonth(despesaDB);
+
+                if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
+                    return ResponseEntity.badRequest().build();
+                }
+            }
+        }
+
+        BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
+        repository.save(despesaDb.get());
+        return ResponseEntity.ok(despesaDb.get());
     }
 }
