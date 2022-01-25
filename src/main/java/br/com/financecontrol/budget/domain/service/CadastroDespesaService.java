@@ -1,5 +1,6 @@
 package br.com.financecontrol.budget.domain.service;
 
+import br.com.financecontrol.budget.domain.model.CategoriaDespesa;
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
@@ -22,16 +23,15 @@ public class CadastroDespesaService {
         String descDespesaAtual = despesa.getDescricao();
         int mesDespesaAtual = BudgetAppUtil.getMonth(despesa);
 
-        for (Despesa despesaDB : listaDespesas) {
-            String descDb = despesaDB.getDescricao();
-            int mesDb = BudgetAppUtil.getMonth(despesaDB);
-
-            if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
-                return ResponseEntity.badRequest().build();
-            }
+        if(despesa.getTipo() == null) {
+            despesa.setTipo(CategoriaDespesa.OUTRAS.getDescricao());
         }
-        repository.save(despesa);
-        return ResponseEntity.ok(despesa);
+
+        if(verificaDescMes(descDespesaAtual, mesDespesaAtual)) {
+            repository.save(despesa);
+            return ResponseEntity.ok(despesa);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     public List<Despesa> findAll(){
@@ -69,20 +69,28 @@ public class CadastroDespesaService {
             if(descDespesaAtual.equals(descDespesaDb) && mesDespesaAtual == mesDespesaAtualDb){
                 return ResponseEntity.badRequest().build();
             }
+        }
+        if(verificaDescMes(descDespesaAtual, mesDespesaAtual)){
+            if(despesa.getTipo() == null){
+              despesa.setTipo(despesaDb.get().getTipo());
+            }
+            BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
+            repository.save(despesaDb.get());
+            return ResponseEntity.ok(despesaDb.get());
+        }
+        return ResponseEntity.badRequest().build();
+    }
 
-            List<Despesa> despesasDb = findAll();
-            for (Despesa despesaDB : despesasDb) {
-                String descDb = despesaDB.getDescricao();
-                int mesDb = BudgetAppUtil.getMonth(despesaDB);
+    public boolean verificaDescMes(String descDespesaAtual, int mesDespesaAtual ){
+        List<Despesa> despesasDb = findAll();
+        for (Despesa despesaDB : despesasDb) {
+            String descDb = despesaDB.getDescricao();
+            int mesDb = BudgetAppUtil.getMonth(despesaDB);
 
-                if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
-                    return ResponseEntity.badRequest().build();
-                }
+            if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
+                return false;
             }
         }
-
-        BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
-        repository.save(despesaDb.get());
-        return ResponseEntity.ok(despesaDb.get());
+        return true;
     }
 }

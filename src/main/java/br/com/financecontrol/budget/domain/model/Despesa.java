@@ -22,6 +22,8 @@ public class Despesa {
     @Column(nullable = false)
     BigDecimal valor;
 
+    String tipo;
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date data;
