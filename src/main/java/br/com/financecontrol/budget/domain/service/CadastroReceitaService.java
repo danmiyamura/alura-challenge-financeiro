@@ -22,13 +22,8 @@ public class CadastroReceitaService {
         String descReceitaAtual = receita.getDescricao();
         int mesReceitaAtual = BudgetAppUtil.getMonth(receita);
 
-        for (Receita receitaDB : listReceitas) {
-            String descDb = receitaDB.getDescricao();
-            int mesDb = BudgetAppUtil.getMonth(receitaDB);
-
-            if(descReceitaAtual.equals(descDb) && mesReceitaAtual == mesDb) {
-                return ResponseEntity.badRequest().build();
-            }
+        if(verificaDescMes(descReceitaAtual, mesReceitaAtual)){
+            return ResponseEntity.badRequest().build();
         }
         repository.save(receita);
         return ResponseEntity.ok(receita);
@@ -60,17 +55,10 @@ public class CadastroReceitaService {
                 return ResponseEntity.badRequest().build();
             }
 
-            List<Receita> receitasDb = findAll();
-            for (Receita receitaDB : receitasDb) {
-                String descDb = receitaDB.getDescricao();
-                int mesDb = BudgetAppUtil.getMonth(receitaDB);
-
-                if(descReceitaAtual.equals(descDb) && mesReceitaAtual == mesDb) {
-                    return ResponseEntity.badRequest().build();
-                }
+            if(verificaDescMes(descReceitaAtual, mesReceitaAtual)){
+                return ResponseEntity.badRequest().build();
             }
         }
-
         BeanUtils.copyProperties(receita, receitaDb.get(), "id");
         repository.save(receitaDb.get());
         return ResponseEntity.ok(receitaDb.get());
@@ -84,5 +72,19 @@ public class CadastroReceitaService {
             System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //Retorna true se encontrar um registro com a mesma descricao no mesmo mes
+    public boolean verificaDescMes(String descReceitaAtual, int mesReceitaAtual ){
+        List<Receita> receitas = findAll();
+        for (Receita receitasDb : receitas) {
+            String descDb = receitasDb.getDescricao();
+            int mesDb = BudgetAppUtil.getMonth(receitasDb);
+
+            if(descReceitaAtual.equals(descDb) && mesReceitaAtual == mesDb) {
+                return true;
+            }
+        }
+        return false;
     }
 }

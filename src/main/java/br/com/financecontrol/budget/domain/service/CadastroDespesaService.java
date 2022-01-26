@@ -28,10 +28,11 @@ public class CadastroDespesaService {
         }
 
         if(verificaDescMes(descDespesaAtual, mesDespesaAtual)) {
-            repository.save(despesa);
-            return ResponseEntity.ok(despesa);
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
+
+        repository.save(despesa);
+        return ResponseEntity.ok(despesa);
     }
 
     public List<Despesa> findAll(){
@@ -71,16 +72,18 @@ public class CadastroDespesaService {
             }
         }
         if(verificaDescMes(descDespesaAtual, mesDespesaAtual)){
-            if(despesa.getTipo() == null){
-              despesa.setTipo(despesaDb.get().getTipo());
-            }
-            BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
-            repository.save(despesaDb.get());
-            return ResponseEntity.ok(despesaDb.get());
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
+
+        if(despesa.getTipo() == null){
+            despesa.setTipo(despesaDb.get().getTipo());
+        }
+        BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
+        repository.save(despesaDb.get());
+        return ResponseEntity.ok(despesaDb.get());
     }
 
+    //Retorna true se encontrar um registro com a mesma descricao no mesmo mes
     public boolean verificaDescMes(String descDespesaAtual, int mesDespesaAtual ){
         List<Despesa> despesasDb = findAll();
         for (Despesa despesaDB : despesasDb) {
@@ -88,9 +91,9 @@ public class CadastroDespesaService {
             int mesDb = BudgetAppUtil.getMonth(despesaDB);
 
             if(descDespesaAtual.equals(descDb) && mesDespesaAtual == mesDb) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
