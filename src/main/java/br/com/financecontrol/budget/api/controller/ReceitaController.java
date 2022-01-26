@@ -25,6 +25,11 @@ public class ReceitaController {
         return service.findById(id);
     }
 
+    @GetMapping(params = "descricao")
+    public ResponseEntity<List<Receita>> buscarPorDec(@RequestParam String descricao){
+        return service.findByDesc(descricao);
+    }
+
     @PostMapping
     public ResponseEntity<Receita> salvar(@RequestBody Receita receita){
         return service.save(receita);

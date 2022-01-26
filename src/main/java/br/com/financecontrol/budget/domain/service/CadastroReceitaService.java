@@ -3,6 +3,7 @@ package br.com.financecontrol.budget.domain.service;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,14 @@ public class CadastroReceitaService {
         BeanUtils.copyProperties(receita, receitaDb.get(), "id");
         repository.save(receitaDb.get());
         return ResponseEntity.ok(receitaDb.get());
+    }
+
+    public ResponseEntity<List<Receita>> findByDesc(String descricao) {
+        List<Receita> receitas = repository.findReceitaByDescricao(descricao);
+        if(receitas.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(receitas);
     }
 
     public ResponseEntity<Receita> delete(Long id){

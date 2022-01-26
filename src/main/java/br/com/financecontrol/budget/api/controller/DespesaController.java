@@ -25,6 +25,11 @@ public class DespesaController {
         return service.findById(id);
     }
 
+    @GetMapping(params = "descricao")
+    public ResponseEntity<List<Despesa>> buscaPorDesc(@RequestParam("descricao") String descricao){
+        return service.findByDesc(descricao);
+    }
+
     @PostMapping
     public ResponseEntity<Despesa>  salvar(@RequestBody Despesa despesa){
         return service.save(despesa);

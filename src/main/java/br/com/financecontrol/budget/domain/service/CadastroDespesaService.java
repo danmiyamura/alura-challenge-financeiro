@@ -83,6 +83,14 @@ public class CadastroDespesaService {
         return ResponseEntity.ok(despesaDb.get());
     }
 
+    public ResponseEntity<List<Despesa>> findByDesc(String descricao) {
+        List<Despesa> despesas = repository.findDespesaByDescricao(descricao);
+        if(despesas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(despesas);
+    }
+
     //Retorna true se encontrar um registro com a mesma descricao no mesmo mes
     public boolean verificaDescMes(String descDespesaAtual, int mesDespesaAtual ){
         List<Despesa> despesasDb = findAll();
