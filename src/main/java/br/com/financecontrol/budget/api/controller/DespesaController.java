@@ -30,6 +30,11 @@ public class DespesaController {
         return service.findByDesc(descricao);
     }
 
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<Despesa>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+        return service.getDespesaByYearAndMonth(ano, mes);
+    }
+
     @PostMapping
     public ResponseEntity<Despesa>  salvar(@RequestBody Despesa despesa){
         return service.save(despesa);

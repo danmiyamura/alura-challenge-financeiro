@@ -1,5 +1,6 @@
 package br.com.financecontrol.budget.api.controller;
 
+import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.service.CadastroReceitaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class ReceitaController {
     @GetMapping(params = "descricao")
     public ResponseEntity<List<Receita>> buscarPorDec(@RequestParam String descricao){
         return service.findByDesc(descricao);
+    }
+
+    @GetMapping(value = "/{ano}/{mes}")
+    public ResponseEntity<List<Receita>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+        return service.getDespesaByYearAndMonth(ano, mes);
     }
 
     @PostMapping

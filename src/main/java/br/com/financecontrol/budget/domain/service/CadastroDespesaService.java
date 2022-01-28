@@ -4,9 +4,11 @@ import br.com.financecontrol.budget.domain.model.CategoriaDespesa;
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,6 +93,15 @@ public class CadastroDespesaService {
         return ResponseEntity.ok(despesas);
     }
 
+    public ResponseEntity<List<Despesa>> getDespesaByYearAndMonth(String ano, int mes) {
+        String anoMes = ano + "-" + mes;
+        List<Despesa> despesas = repository.getDespesaByYearAndMonth(anoMes);
+        if(despesas.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(despesas);
+    }
+
     //Retorna true se encontrar um registro com a mesma descricao no mesmo mes
     public boolean verificaDescMes(String descDespesaAtual, int mesDespesaAtual ){
         List<Despesa> despesasDb = findAll();
@@ -104,4 +115,6 @@ public class CadastroDespesaService {
         }
         return false;
     }
+
+
 }

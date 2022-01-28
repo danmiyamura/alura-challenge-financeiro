@@ -1,5 +1,6 @@
 package br.com.financecontrol.budget.domain.service;
 
+import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.repository.ReceitaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
@@ -67,6 +68,15 @@ public class CadastroReceitaService {
 
     public ResponseEntity<List<Receita>> findByDesc(String descricao) {
         List<Receita> receitas = repository.findReceitaByDescricao(descricao);
+        if(receitas.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(receitas);
+    }
+
+    public ResponseEntity<List<Receita>> getDespesaByYearAndMonth(String ano, int mes) {
+        String anoMes = ano + "-" + mes;
+        List<Receita> receitas = repository.getDespesaByYearAndMonth(anoMes);
         if(receitas.isEmpty()){
             return ResponseEntity.notFound().build();
         }
