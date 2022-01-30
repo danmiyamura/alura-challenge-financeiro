@@ -1,6 +1,5 @@
 package br.com.financecontrol.budget.domain.repository;
 
-import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

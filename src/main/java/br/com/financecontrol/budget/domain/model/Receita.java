@@ -17,16 +17,16 @@ public class Receita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    String descricao;
+    private String descricao;
 
     @Column(nullable = false)
-    BigDecimal valor;
+    private BigDecimal valor;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    Date data;
+    private Date data;
 
 }

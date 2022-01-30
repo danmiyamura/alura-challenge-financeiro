@@ -1,4 +1,4 @@
-package br.com.financecontrol.budget.domain.model;
+package br.com.financecontrol.budget.util;
 
 import lombok.Getter;
 

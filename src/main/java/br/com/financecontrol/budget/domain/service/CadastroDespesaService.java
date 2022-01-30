@@ -1,14 +1,12 @@
 package br.com.financecontrol.budget.domain.service;
 
-import br.com.financecontrol.budget.domain.model.CategoriaDespesa;
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.repository.DespesaRepository;
 import br.com.financecontrol.budget.util.BudgetAppUtil;
-import org.apache.coyote.Response;
+import br.com.financecontrol.budget.util.CategoriaDespesa;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +23,8 @@ public class CadastroDespesaService {
         String descDespesaAtual = despesa.getDescricao();
         int mesDespesaAtual = BudgetAppUtil.getMonth(despesa);
 
-        if(despesa.getTipo() == null) {
-            despesa.setTipo(CategoriaDespesa.OUTRAS.getDescricao());
+        if(despesa.getCategoria() == null) {
+            despesa.setCategoria(CategoriaDespesa.OUTRAS.getDescricao());
         }
 
         if(verificaDescMes(descDespesaAtual, mesDespesaAtual)) {
@@ -77,8 +75,8 @@ public class CadastroDespesaService {
             return ResponseEntity.badRequest().build();
         }
 
-        if(despesa.getTipo() == null){
-            despesa.setTipo(despesaDb.get().getTipo());
+        if(despesa.getCategoria() == null){
+            despesa.setCategoria(despesaDb.get().getCategoria());
         }
         BeanUtils.copyProperties(despesa, despesaDb.get(), "id");
         repository.save(despesaDb.get());

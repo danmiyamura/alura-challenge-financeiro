@@ -1,6 +1,5 @@
 package br.com.financecontrol.budget.api.controller;
 
-import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.service.CadastroReceitaService;
 import org.springframework.beans.factory.annotation.Autowired;
