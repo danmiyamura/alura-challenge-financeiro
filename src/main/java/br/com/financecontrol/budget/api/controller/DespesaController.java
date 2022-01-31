@@ -1,6 +1,7 @@
 package br.com.financecontrol.budget.api.controller;
 
-import br.com.financecontrol.budget.domain.model.Despesa;
+import br.com.financecontrol.budget.domain.dto.input.DespesaInputDTO;
+import br.com.financecontrol.budget.domain.dto.output.DespesaOutputDTO;
 import br.com.financecontrol.budget.domain.service.CadastroDespesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,37 +17,37 @@ public class DespesaController {
     private CadastroDespesaService service;
 
     @GetMapping
-    public List<Despesa> listar(){
+    public List<DespesaOutputDTO> listar(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Despesa> busca(@PathVariable Long id){
+    public ResponseEntity<DespesaOutputDTO> busca(@PathVariable Long id){
         return service.findById(id);
     }
 
     @GetMapping(params = "descricao")
-    public ResponseEntity<List<Despesa>> buscaPorDesc(@RequestParam("descricao") String descricao){
+    public ResponseEntity<List<DespesaOutputDTO>> buscaPorDesc(@RequestParam("descricao") String descricao){
         return service.findByDesc(descricao);
     }
 
     @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<Despesa>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+    public ResponseEntity<List<DespesaOutputDTO>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
         return service.getDespesaByYearAndMonth(ano, mes);
     }
 
     @PostMapping
-    public ResponseEntity<Despesa>  salvar(@RequestBody Despesa despesa){
+    public ResponseEntity<DespesaOutputDTO> salvar(@RequestBody DespesaInputDTO despesa){
         return service.save(despesa);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Despesa> atualizar(@PathVariable Long id, @RequestBody Despesa despesa){
+    public ResponseEntity<DespesaOutputDTO> atualizar(@PathVariable Long id, @RequestBody DespesaInputDTO despesa){
         return service.update(id, despesa);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Despesa> remover(@PathVariable Long id){
+    public ResponseEntity<DespesaOutputDTO> remover(@PathVariable Long id){
        return service.delete(id);
     }
 }

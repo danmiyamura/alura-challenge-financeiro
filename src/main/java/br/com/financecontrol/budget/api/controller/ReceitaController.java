@@ -1,5 +1,7 @@
 package br.com.financecontrol.budget.api.controller;
 
+import br.com.financecontrol.budget.domain.dto.input.ReceitaInputDTO;
+import br.com.financecontrol.budget.domain.dto.output.ReceitaOutputDTO;
 import br.com.financecontrol.budget.domain.model.Receita;
 import br.com.financecontrol.budget.domain.service.CadastroReceitaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +18,32 @@ public class ReceitaController {
     CadastroReceitaService service;
 
     @GetMapping
-    public List<Receita> listar(){
+    public List<ReceitaOutputDTO> listar(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Receita> buscar(@PathVariable Long id){
+    public ResponseEntity<ReceitaOutputDTO> buscar(@PathVariable Long id){
         return service.findById(id);
     }
 
     @GetMapping(params = "descricao")
-    public ResponseEntity<List<Receita>> buscarPorDec(@RequestParam String descricao){
+    public ResponseEntity<List<ReceitaOutputDTO>> buscarPorDec(@RequestParam String descricao){
         return service.findByDesc(descricao);
     }
 
     @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<Receita>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+    public ResponseEntity<List<ReceitaOutputDTO>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
         return service.getDespesaByYearAndMonth(ano, mes);
     }
 
     @PostMapping
-    public ResponseEntity<Receita> salvar(@RequestBody Receita receita){
+    public ResponseEntity<ReceitaOutputDTO> salvar(@RequestBody ReceitaInputDTO receita){
         return service.save(receita);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Receita> atualizar(@PathVariable Long id, @RequestBody Receita receita) {
+    public ResponseEntity<ReceitaOutputDTO> atualizar(@PathVariable Long id, @RequestBody ReceitaInputDTO receita) {
         return service.update(id, receita);
     }
 
