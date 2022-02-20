@@ -2,9 +2,9 @@ package br.com.financecontrol.budget.api.controller;
 
 import br.com.financecontrol.budget.domain.dto.input.DespesaInputDTO;
 import br.com.financecontrol.budget.domain.dto.output.DespesaOutputDTO;
-import br.com.financecontrol.budget.domain.service.CadastroDespesaService;
+import br.com.financecontrol.budget.domain.service.impl.CadastroDespesaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,40 +14,47 @@ import java.util.List;
 public class DespesaController {
 
     @Autowired
-    private CadastroDespesaService service;
+    private CadastroDespesaServiceImpl service;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<DespesaOutputDTO> listar(){
         return service.findAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public ResponseEntity<DespesaOutputDTO> busca(@PathVariable Long id){
+    public DespesaOutputDTO busca(@PathVariable Long id){
         return service.findById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(params = "descricao")
-    public ResponseEntity<List<DespesaOutputDTO>> buscaPorDesc(@RequestParam("descricao") String descricao){
+    public List<DespesaOutputDTO> buscaPorDesc(@RequestParam("descricao") String descricao){
         return service.findByDesc(descricao);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<DespesaOutputDTO>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+    public List<DespesaOutputDTO> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
         return service.getDespesaByYearAndMonth(ano, mes);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<DespesaOutputDTO> salvar(@RequestBody DespesaInputDTO despesa){
+    public DespesaOutputDTO salvar(@RequestBody DespesaInputDTO despesa){
         return service.save(despesa);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public ResponseEntity<DespesaOutputDTO> atualizar(@PathVariable Long id, @RequestBody DespesaInputDTO despesa){
+    public DespesaOutputDTO atualizar(@PathVariable Long id, @RequestBody DespesaInputDTO despesa){
         return service.update(id, despesa);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<DespesaOutputDTO> remover(@PathVariable Long id){
-       return service.delete(id);
+    public void remover(@PathVariable Long id){
+       service.delete(id);
     }
 }

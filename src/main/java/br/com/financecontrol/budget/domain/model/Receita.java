@@ -1,7 +1,6 @@
 package br.com.financecontrol.budget.domain.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
-@Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor
+    @Data
+    @Entity
+    @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+    @NoArgsConstructor
 public class Receita {
 
     @Id

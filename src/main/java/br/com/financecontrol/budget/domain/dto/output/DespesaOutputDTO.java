@@ -1,6 +1,5 @@
 package br.com.financecontrol.budget.domain.dto.output;
 
-import br.com.financecontrol.budget.domain.dto.input.ReceitaInputDTO;
 import br.com.financecontrol.budget.domain.model.Despesa;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

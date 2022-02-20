@@ -3,8 +3,9 @@ package br.com.financecontrol.budget.api.controller;
 import br.com.financecontrol.budget.domain.dto.input.ReceitaInputDTO;
 import br.com.financecontrol.budget.domain.dto.output.ReceitaOutputDTO;
 import br.com.financecontrol.budget.domain.model.Receita;
-import br.com.financecontrol.budget.domain.service.CadastroReceitaService;
+import br.com.financecontrol.budget.domain.service.impl.CadastroReceitaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,40 +16,47 @@ import java.util.List;
 public class ReceitaController {
 
     @Autowired
-    CadastroReceitaService service;
+    CadastroReceitaServiceImpl service;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<ReceitaOutputDTO> listar(){
         return service.findAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public ResponseEntity<ReceitaOutputDTO> buscar(@PathVariable Long id){
+    public ReceitaOutputDTO buscar(@PathVariable Long id){
         return service.findById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(params = "descricao")
-    public ResponseEntity<List<ReceitaOutputDTO>> buscarPorDec(@RequestParam String descricao){
+    public List<ReceitaOutputDTO> buscarPorDec(@RequestParam String descricao){
         return service.findByDesc(descricao);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{ano}/{mes}")
-    public ResponseEntity<List<ReceitaOutputDTO>> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
+    public List<ReceitaOutputDTO> buscaPorAnoMes(@PathVariable String ano, @PathVariable int mes){
         return service.getDespesaByYearAndMonth(ano, mes);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<ReceitaOutputDTO> salvar(@RequestBody ReceitaInputDTO receita){
+    public ReceitaOutputDTO salvar(@RequestBody ReceitaInputDTO receita){
         return service.save(receita);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public ResponseEntity<ReceitaOutputDTO> atualizar(@PathVariable Long id, @RequestBody ReceitaInputDTO receita) {
+    public ReceitaOutputDTO atualizar(@PathVariable Long id, @RequestBody ReceitaInputDTO receita) {
         return service.update(id, receita);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Receita> remover(@PathVariable Long id){
-        return service.delete(id);
+    public void remover(@PathVariable Long id){
+        service.delete(id);
     }
 }

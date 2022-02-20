@@ -1,7 +1,5 @@
 package br.com.financecontrol.budget.util;
 
-import br.com.financecontrol.budget.domain.dto.input.DespesaInputDTO;
-import br.com.financecontrol.budget.domain.dto.input.ReceitaInputDTO;
 import br.com.financecontrol.budget.domain.model.Despesa;
 import br.com.financecontrol.budget.domain.model.Receita;
 
